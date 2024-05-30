@@ -27,8 +27,20 @@ def re_match(re_pattern, string, errif=None):
 
 def get_house_info(start_url, sess):
     html = sess.get(start_url).text
-    house_num = re.findall('共找到<span> (.*?) </span>套.*二手房', html)[0].strip()
-    return house_num
+    # 示例字符串
+    text = '{"totalPage":9,"curPage":1}'
+
+    # 使用正则表达式查找totalPage的值
+    match = re.search(r'"totalPage":(\d+)', text)
+
+    if match:
+        # 提取匹配的数字部分
+        total_page = match.group(1)
+        print('Total Page:', total_page)
+        return int(total_page)
+    else:
+        print('Total Page not found')
+        return 0
 
 
 def get_info_dic(info, area, city_name):
@@ -66,10 +78,9 @@ def crawl_data(sess, real_dict, city_name):
 
     for key_, value_ in real_dict.items():
         start_url = ('https://%s.lianjia.com/ershoufang/{}/' % city_name).format(value_)
-        house_num = get_house_info(start_url, sess)
-        print('{}: 二手房源共计「{}」套'.format(key_, house_num))
+        total_page = get_house_info(start_url, sess)
+        print('{}: 二手房源共计「{}」页'.format(key_, total_page))
         time.sleep(2)
-        total_page = int(math.ceil(min(3000, int(house_num)) / 30.0))
         for i in tqdm(range(total_page), desc=key_):
             html = sess.get(url.format(value_, i+1)).text
             soup = BeautifulSoup(html, 'lxml')
@@ -113,21 +124,34 @@ def main():
 
     area_dic = {}
     area_dic_small = {}
-    if city_name == "bj":
+    if city_name == "sh":
         # all beijing
-        area_dic = {'朝阳区': 'chaoyang',
-                    '海淀区': 'haidian',
-                    '西城区': 'xicheng'
+        area_dic = {'长宁区': 'changning',
         }
         area_dic_small = {
-            '五道口': 'wudaokou',
-        }
-    elif city_name == "hz":
-        area_dic = {
-            '钱塘区': 'qiantangqu'
-                    }
-        area_dic_small = {
-            # define as real need
+            # #长宁
+            # '中山公园': 'zhongshangongyuan',
+            # '新华路': 'xinhualu',
+            # '镇宁路': 'zhenninglu',
+            # #普陀
+            # '曹杨': 'caoyang',
+            # '长寿路': 'changshoulu',
+            # '武宁': 'wuning',
+            # '光新': 'guangxin',
+            # #静安
+            # '曹家渡': 'caojiaodu',
+            # '江宁路': 'jiangninglu',
+            # '静安寺': 'jingansi',
+            # '南京西路': 'nanjingxilu',
+            # '西藏北路': 'xizangbeilu',
+            # '不夜城': 'buyecheng',
+            # #徐汇
+            # '衡山路': 'hengshanlu',
+            # '建国西路': 'jianguoxilu',
+            # '徐家汇': 'xujiahui',
+            # '斜土路': 'xietulu',
+            #测试
+            '华泾': 'huajing',
         }
     else:
         print("no area dic defined in city:%s, fill it first" % city_name)

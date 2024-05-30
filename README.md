@@ -44,24 +44,28 @@ Analysis of estate beijing data 数据分析
 1. 安装所需的依赖库。
 
 ```
+//设置清华源
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 pip install pandas
 pip install lxml
 pip install bs4
+pip install tqdm
+pip install requests
 
 ```
 
 2. 运行获取
 
-无参数运行，默认处理beijing，各个区数据，比如东城区
+无参数运行，默认处理shanghai
 ```
-python eroom_finder.py --city_name bj
+python eroom_finder.py --city_name sh
 ```
 
 指定参数运行：
 (1) 指定其它城市
 (2) 指定特定区域（比如四惠）
 ```
-python eroom_finder.py --city_name bj --area_name small
+python eroom_finder.py --city_name sh --area_name small
 ```
 之后你会看到结果如eroom_time__20221227_detail__1672138021__*.csv
 
