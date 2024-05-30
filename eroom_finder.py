@@ -27,11 +27,9 @@ def re_match(re_pattern, string, errif=None):
 
 def get_house_info(start_url, sess):
     html = sess.get(start_url).text
-    # 示例字符串
-    text = '{"totalPage":9,"curPage":1}'
-
+    
     # 使用正则表达式查找totalPage的值
-    match = re.search(r'"totalPage":(\d+)', text)
+    match = re.search(r'"totalPage":(\d+)', html)
 
     if match:
         # 提取匹配的数字部分
@@ -129,29 +127,29 @@ def main():
         area_dic = {'长宁区': 'changning',
         }
         area_dic_small = {
-            # #长宁
-            # '中山公园': 'zhongshangongyuan',
-            # '新华路': 'xinhualu',
-            # '镇宁路': 'zhenninglu',
-            # #普陀
-            # '曹杨': 'caoyang',
-            # '长寿路': 'changshoulu',
-            # '武宁': 'wuning',
-            # '光新': 'guangxin',
-            # #静安
-            # '曹家渡': 'caojiaodu',
-            # '江宁路': 'jiangninglu',
-            # '静安寺': 'jingansi',
-            # '南京西路': 'nanjingxilu',
-            # '西藏北路': 'xizangbeilu',
-            # '不夜城': 'buyecheng',
-            # #徐汇
-            # '衡山路': 'hengshanlu',
-            # '建国西路': 'jianguoxilu',
-            # '徐家汇': 'xujiahui',
-            # '斜土路': 'xietulu',
-            #测试
-            '华泾': 'huajing',
+            #长宁
+            '中山公园': 'zhongshangongyuan',
+            '新华路': 'xinhualu',
+            '镇宁路': 'zhenninglu',
+            #普陀
+            '曹杨': 'caoyang',
+            '长寿路': 'changshoulu',
+            '武宁': 'wuning',
+            '光新': 'guangxin',
+            #静安
+            '曹家渡': 'caojiaodu',
+            '江宁路': 'jiangninglu',
+            '静安寺': 'jingansi',
+            '南京西路': 'nanjingxilu',
+            '西藏北路': 'xizangbeilu',
+            '不夜城': 'buyecheng',
+            #徐汇
+            '衡山路': 'hengshanlu',
+            '建国西路': 'jianguoxilu',
+            '徐家汇': 'xujiahui',
+            '斜土路': 'xietulu',
+            # #测试
+            # '华泾': 'huajing',
         }
     else:
         print("no area dic defined in city:%s, fill it first" % city_name)
@@ -169,7 +167,7 @@ def main():
 
     data_info_list = crawl_data(sess, real_dict, city_name)
     data = pd.DataFrame(data_info_list)
-    data.to_csv("eroom_time__%s_detail__%s__area_%s.csv" % (datetime.datetime.now().strftime('%Y%m%d'), int(time.time()), len(area_dic.values())), encoding='utf-8-sig')
+    data.to_csv("area_%s_%s.csv" % (datetime.datetime.now().strftime('%Y%m%d'), int(time.time())), encoding='utf-8-sig')
 
 
 if __name__ == '__main__':

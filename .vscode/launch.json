@@ -11,8 +11,9 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "--city_name", "sh",
-                "--area_name", "small"
+                // "--city_name", "sh",
+                // "--area_name", "small"
+                "--file_name", "test.csv"
             ]
         }
     ]
